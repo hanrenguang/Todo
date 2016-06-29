@@ -1,4 +1,75 @@
 * {
 	margin: 0;
 	padding: 0;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
+	font: normal 100 14px/25px "Microsoft Yahei", sans-serif;
+}
+a {
+	color: red;
+	margin-left: 30px;
+}
+html, body {
+	width: 100%;
+}
+
+div.showMsg {
+	width: 300px;
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+	font-size: 18px;
+	background-color: #ff8514;
+	color: #ffffff;
+	letter-spacing: 1px;
+	position: absolute;
+	top: 35%;
+	left: 50%;
+	margin-left: -150px;
+	z-index: -2;
+	opacity: 0;
+	-webkit-border-radius: 6px;
+	        border-radius: 6px;
+		 transition: opacity .5s;
+	-moz-transition: opacity .5s;	/* Firefox 4 */
+	-webkit-transition: opacity .5s;	/* Safari 和 Chrome */
+}
+
+input[type="text"] {
+	width: 260px;
+	text-indent: 5px;
+}
+input[type="button"] {
+	margin-left: 10px;
+	width: 50px;
+	height: 30px;
+}
+
+div.write {
+	width: 500px;
+	height: auto;
+	margin: 0px auto;
+	padding-top: 20px;
+}
+
+p.show {
+	line-height: 30px;
+	font-size: 16px;
+	margin: 20px 0px 10px 20px;
+	color: red;
+}
+
+div.wrapper {
+	width: 100%;
+	height: auto;
+	padding-left: 50px;
+}
+.date {
+	font-size: 16px;
+	color: green;
+}
+.wrapper p {
+	margin-left: 10px;
+	line-height: 30px;
+	font-size: 16px;
 }
