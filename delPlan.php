@@ -2,7 +2,7 @@
 	header("Content-type:text/html; charset=utf-8");
 
 	$plan = $_POST['plan'];
-	echo $plan;
+	
 	//连接数据库
 	$conn = mysqli_connect("localhost", "root", "coderhan", "MyPLAN");
 	mysqli_set_charset($conn, 'utf8');
