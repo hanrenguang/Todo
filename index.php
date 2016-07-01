@@ -7,18 +7,36 @@
 </head>
 <body>
 	<div class="write">
-		记录今日安排：<input type="text" class="plan" placeholder="简要得写下一条计划">
+		记录假期安排：<input type="text" class="plan" placeholder="简要地写下一条计划">
 		<input type="button" class="submit" value="提交">
 	</div>
 	
-	<p class="show">今日计划列表：</p>
+	<p class="show">假期计划列表：</p>
 	<div class="wrapper">
 		<div class="date"></div>
 		<?php 
+			header("Content-type:text/html; charset-utf-8");
+			$conn = new mysqli("localhost", "root", "coderhan", "MyPLAN");
+			//mysql_select_db("MyPLAN", $conn);
+			mysqli_set_charset($conn, 'utf8');
+			$sql = "SELECT plan FROM myplans";
+			$result = $conn->query($sql);
+			/*if($result) {
+				// 输出每行数据
+				while($row = mysql_fetch_array($result)) {
+					$plan = mb_convert_encoding($row["plan"], "UTF-8", "gbk");
+				    echo "<p>".$plan.'<a href="javascript:;">done</a></p>';
+				}
+			}*/
+			if ($result->num_rows > 0) {
+			    // 输出每行数据
+			    while($row = $result->fetch_assoc()) {
+			        echo "<p>".$row["plan"].'<a href="javascript:;">done</a></p>';
+			    }
+			}
 			
+			$conn->close();
 		 ?>
-		<p>写一道算法题<a href="javascript:;">done</a></p>
-		<p>写两道算法题<a href="javascript:;">done</a></p>
 	</div>
 
 	<div class="showMsg"></div>
