@@ -35,12 +35,17 @@ window.onload = function() {
 	for(var i = 0; i < donePlan.length; i++) {
 		donePlan[i].onclick = function() {
 			//confirmInfo();
-			var re = /^(.*)\<a.*\>.+\<\/a\>$/g;
-			var myArr = re.exec(this.parentNode.innerHTML);
-			sendMsg('delPlan.php', myArr[1]);
+			var plan = getPlan(this.parentNode.innerHTML);
+			sendMsg('delPlan.php', plan);
 		};
 	}
 };
+
+function getPlan(str) {
+	var re = /^(.*)\<a.*\>.+\<\/a\>$/g;
+	var myArr = re.exec(str);
+	return myArr[1];
+}
 
 function showMessage(msg) {
 	var msgBox = document.querySelector(".showMsg");
@@ -95,9 +100,8 @@ function showPlan(plan) {
 	parent.appendChild(newElem);
 	newElem.getElementsByTagName('a')[0].onclick = function() {
 		//confirmInfo();
-		var re = /^(.*)\<a.*\>.+\<\/a\>$/g;
-		var myArr = re.exec(this.parentNode.innerHTML);
-		sendMsg('delPlan.php', myArr[1]);
+		var myPlan = getPlan(this.parentNode.innerHTML);
+		sendMsg('delPlan.php', myPlan);
 	};
 }
 
@@ -107,9 +111,8 @@ function delPlan(plan) {
 	var re;
 	var myArr;
 	for(var i = 0; i < planElems.length; i++) {
-		re = /^(.*)\<a.*\>.+\<\/a\>$/g;
-		myArr = re.exec(planElems[i].innerHTML);
-		if(myArr[1] == plan) {
+		myPlan = getPlan(planElems[i].innerHTML);
+		if(myPlan == plan) {
 			parent.removeChild(planElems[i]);
 			break;
 		}
