@@ -10,7 +10,7 @@
 		die("数据库连接错误：".mysqli_connect_error());
 	}
 
-	$sql = "DELETE FROM myplans WHERE plan="."'".$plan."'";
+	$sql = "DELETE FROM myplans WHERE `plan`='$plan'";
 	mysqli_query($conn, $sql);
 
 	mysqli_close($conn);

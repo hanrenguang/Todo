@@ -13,6 +13,17 @@ window.onload = function() {
 	differ = Math.floor(differ / (24*60*60*1000));
 	dateElem.innerHTML = '现在的日期是：' + year + '年' + month + '月' + day + '日' + '&nbsp;&nbsp;&nbsp;&nbsp;距放假结束还有：' + differ + '天';
 
+
+	/* 退出登录的显示和隐藏 */
+	var user = document.getElementById("user");
+	var signOut = document.querySelector(".second");
+	user.onmouseover = function() {
+		signOut.style.display = "block";
+	};
+	user.onmouseout = function() {
+		signOut.style.display = "none";
+	};
+
 	/* 获取当前计划，并存储在数据库中 */
 	var submit = document.querySelector(".submit"),
 	    planContent = document.querySelector(".plan");

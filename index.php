@@ -6,6 +6,19 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+	<header>
+		<nav>
+			<ul class="clearfix">
+				<li class="first"><a href="javascript:;">登录</a></li>
+				<li class="first"><a href="javascript:;">注册</a></li>
+				<li class="first" id="user"><a href="javascript:;"></a>
+					<ul>
+						<li class="second"><a href="javascript:;">退出登录</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	</header>
 	<div class="write">
 		记录假期安排：<input type="text" class="plan" placeholder="简要地写下一条计划">
 		<input type="button" class="submit" value="提交">

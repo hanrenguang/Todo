@@ -19,7 +19,7 @@
 	//设置字符集
 	$conn->query("SET NAMES utf8"); 
 	//向表中写入数据
-	$sql_insert = "INSERT INTO myplans (".'plan'.") VALUES ("."'".$plan."'".")";
+	$sql_insert = "INSERT INTO myplans (`plan`) VALUES ('$plan')";
 	if($conn->query($sql_insert) === TRUE) {
 		//do something
 	}
