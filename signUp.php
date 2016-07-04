@@ -9,8 +9,8 @@
 	setcookie("username", "", time()-3600);
 	setcookie("password", "", time()-3600);
 	//设置cookie把用户名和密码保存在客户端
-	setcookie('username', $username, time()+60*5);
-	setcookie('password', $password, time()+60*5);
+	setcookie('username', $username, time()+60*60*24);
+	setcookie('password', $password, time()+60*60*24);
 
 	$con->close();
  ?>

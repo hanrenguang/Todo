@@ -31,14 +31,13 @@ window.onload = function() {
 
 	/* 登录框的显示和隐藏 */
 	var signIn = document.querySelectorAll(".first")[0];
-	var cover = document.querySelector(".cover");
 	var signInBox = document.querySelector(".sign-in");
 	var signInX = document.querySelector(".cancel");
 	signIn.onclick = function() {
-		signDiv(cover, signInBox, "block");
+		signDiv(signInBox, "block");
 	};
 	signInX.onclick = function() {
-		signDiv(cover, signInBox, "none");
+		signDiv(signInBox, "none");
 	};
 
 	//登录
@@ -53,7 +52,6 @@ window.onload = function() {
 		if(!isOk) {
 			return ; 
 		}
-		signDiv(cover, signInBox, "none");
 		sendMsg('signIn.php', {'username': username, 'password': password}, "sign_in");
 	};
 
@@ -63,10 +61,10 @@ window.onload = function() {
 	var signUpBox = document.querySelector(".sign-up");
 	var signUpX = document.querySelector(".cancel_up");
 	signUp.onclick = function() {
-		signDiv(cover, signUpBox, "block");
+		signDiv(signUpBox, "block");
 	};
 	signUpX.onclick = function() {
-		signDiv(cover, signUpBox, "none");
+		signDiv(signUpBox, "none");
 	};
 
 	//注册
@@ -81,7 +79,7 @@ window.onload = function() {
 		if(!isOk) {
 			return ; 
 		}
-		signDiv(cover, signUpBox, "none");
+		signDiv(signUpBox, "none");
 		sendMsg('signUp.php', {'username': username, 'password': password}, "sign_up");
 	};
 
@@ -161,10 +159,18 @@ function sendMsg(url, data, db) {
 					delPlan(data['plan']);
 				}
 				else if(url == 'signIn.php') {
+					var signInBox = document.querySelector(".sign-in");
 					if(http_request.responseText == "failed") {
 						showMessage("密码错误！");
+						resetForm();
 						return ;
 					}
+					else if(http_request.responseText == "username not found") {
+						showMessage("该用户不存在！");
+						resetForm();
+						return ;
+					}
+					signDiv(signInBox, "none");
 					window.location.reload();
 				}
 				else {
@@ -218,7 +224,8 @@ function delPlan(plan) {
 }
 
 //显示和隐藏浮层
-function signDiv(cover, sign, dis) {
+function signDiv(sign, dis) {
+	var cover = document.querySelector(".cover");
 	cover.style.display = dis;
 	sign.style.display = dis;
 }
@@ -244,4 +251,12 @@ function testData(user, pw) {
 	else {
 		return true;
 	}
+}
+
+//重置表单的值
+function resetForm() {
+	var user_in = document.querySelector(".user");
+	var pw_in = document.querySelector(".pw");
+	user_in.value = "";
+	pw_in.value = "";
 }
