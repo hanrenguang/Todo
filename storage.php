@@ -2,6 +2,7 @@
 	header("Content-type:text/html; charset=utf-8");
 
 	$plan = $_POST['plan'];
+	$user = $_POST['username'];
 
 	$servername = "localhost";
 	$username = "root";
@@ -19,7 +20,7 @@
 	//设置字符集
 	$conn->query("SET NAMES utf8"); 
 	//向表中写入数据
-	$sql_insert = "INSERT INTO myplans (`plan`) VALUES ('$plan')";
+	$sql_insert = "INSERT INTO myplans (`username`, `plan`) VALUES ('$user', '$plan')";
 	if($conn->query($sql_insert) === TRUE) {
 		//do something
 	}

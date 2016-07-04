@@ -15,7 +15,7 @@ window.onload = function() {
 
 
 	/* 退出登录的显示和隐藏 */
-	var user = document.getElementById("user");
+	var user = document.querySelectorAll(".first")[2];
 	var signOut = document.querySelector(".second");
 	user.onmouseover = function() {
 		signOut.style.display = "block";
@@ -24,19 +24,86 @@ window.onload = function() {
 		signOut.style.display = "none";
 	};
 
+	//退出登录
+	signOut.onclick = function() {
+		sendMsg('signOut.php', {}, "sign_out");
+	};
+
+	/* 登录框的显示和隐藏 */
+	var signIn = document.querySelectorAll(".first")[0];
+	var cover = document.querySelector(".cover");
+	var signInBox = document.querySelector(".sign-in");
+	var signInX = document.querySelector(".cancel");
+	signIn.onclick = function() {
+		signDiv(cover, signInBox, "block");
+	};
+	signInX.onclick = function() {
+		signDiv(cover, signInBox, "none");
+	};
+
+	//登录
+	var user_in = document.querySelector(".user");
+	var pw_in = document.querySelector(".pw");
+	var sub_in = document.querySelector(".sign-in-sub");
+	sub_in.onclick = function() {
+		var username = user_in.value;
+		var password = pw_in.value;
+		//前端验证用户和密码
+		var isOk = testData(username, password);
+		if(!isOk) {
+			return ; 
+		}
+		signDiv(cover, signInBox, "none");
+		sendMsg('signIn.php', {'username': username, 'password': password}, "sign_in");
+	};
+
+
+	/* 注册框的显示和隐藏 */
+	var signUp = document.querySelectorAll(".first")[1];
+	var signUpBox = document.querySelector(".sign-up");
+	var signUpX = document.querySelector(".cancel_up");
+	signUp.onclick = function() {
+		signDiv(cover, signUpBox, "block");
+	};
+	signUpX.onclick = function() {
+		signDiv(cover, signUpBox, "none");
+	};
+
+	//注册
+	var user_up = document.querySelector(".user_up");
+	var pw_up = document.querySelector(".pw_up");
+	var sub_up = document.querySelector(".sign-up-sub");
+	sub_up.onclick = function() {
+		var username = user_up.value;
+		var password = pw_up.value;
+		//前端验证用户和密码
+		var isOk = testData(username, password);
+		if(!isOk) {
+			return ; 
+		}
+		signDiv(cover, signUpBox, "none");
+		sendMsg('signUp.php', {'username': username, 'password': password}, "sign_up");
+	};
+
 	/* 获取当前计划，并存储在数据库中 */
 	var submit = document.querySelector(".submit"),
 	    planContent = document.querySelector(".plan");
 	submit.onclick = function () {
 		var plan = planContent.value;
-		if(!plan) {
+		var user = document.getElementById("user");
+		if(!user) {
+			showMessage("请登录后重试！");
+			return ;
+		}
+		else if(!plan) {
 			showMessage("未输入当前计划！");
 			return ;
 		}
 		else {
+			var username = user.innerHTML;
 			planContent.value = "";
 			/* 调用函数发送Ajax请求 */
-			var isSuccess = sendMsg('storage.php', plan);
+			sendMsg('storage.php', {'username': username, 'plan': plan}, 'plan');
 		}
 	};
 
@@ -46,8 +113,9 @@ window.onload = function() {
 	for(var i = 0; i < donePlan.length; i++) {
 		donePlan[i].onclick = function() {
 			//confirmInfo();
+			var user = document.getElementById("user").innerHTML;
 			var plan = getPlan(this.parentNode.innerHTML);
-			sendMsg('delPlan.php', plan);
+			sendMsg('delPlan.php', {'username': user, 'plan': plan}, 'plan');
 		};
 	}
 };
@@ -61,13 +129,13 @@ function getPlan(str) {
 function showMessage(msg) {
 	var msgBox = document.querySelector(".showMsg");
 	msgBox.innerHTML = msg;
-	msgBox.style.opacity = "1";
+	msgBox.style.display = "block";
 	setTimeout(function() {
-		msgBox.style.opacity = "0";
-	}, 2000);
+		msgBox.style.display = "none";
+	}, 2300);
 }
 
-function sendMsg(url, data) {
+function sendMsg(url, data, db) {
 	var http_request;
 	if (window.XMLHttpRequest) { // Mozilla, Safari,...
             http_request = new XMLHttpRequest();
@@ -87,10 +155,20 @@ function sendMsg(url, data) {
 			if(http_request.status == 200) {
 				if(url == 'storage.php') {
 					/* 返回成功后将计划显示在页面上 */
-					showPlan(data);
+					showPlan(data['plan']);
+				}
+				else if(url == 'delPlan.php') {
+					delPlan(data['plan']);
+				}
+				else if(url == 'signIn.php') {
+					if(http_request.responseText == "failed") {
+						showMessage("密码错误！");
+						return ;
+					}
+					window.location.reload();
 				}
 				else {
-					delPlan(data);
+					window.location.reload();
 				}
 			}
 			else {
@@ -100,7 +178,15 @@ function sendMsg(url, data) {
 	};
 	http_request.open('POST', url, true);
 	http_request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-	http_request.send('plan=' + data);
+	if(db == 'plan') {
+		http_request.send('username=' + data['username'] + '&plan=' + data['plan']);
+	}
+	else if(db == "sign_out") {
+		http_request.send();
+	}
+	else {
+		http_request.send('username=' + data['username'] + '&password=' + data['password']);
+	}
 }
 
 function showPlan(plan) {
@@ -111,8 +197,9 @@ function showPlan(plan) {
 	parent.appendChild(newElem);
 	newElem.getElementsByTagName('a')[0].onclick = function() {
 		//confirmInfo();
+		var user = document.getElementById("user").innerHTML;
 		var myPlan = getPlan(this.parentNode.innerHTML);
-		sendMsg('delPlan.php', myPlan);
+		sendMsg('delPlan.php', {'username': user, 'plan': myPlan}, 'plan');
 	};
 }
 
@@ -127,5 +214,34 @@ function delPlan(plan) {
 			parent.removeChild(planElems[i]);
 			break;
 		}
+	}
+}
+
+//显示和隐藏浮层
+function signDiv(cover, sign, dis) {
+	cover.style.display = dis;
+	sign.style.display = dis;
+}
+
+//前端验证username和password
+function testData(user, pw) {
+	if(!user) {
+		showMessage("用户名不能为空！");
+		return false;
+	}
+	else if(!pw) {
+		showMessage("密码不能为空！");
+		return false;
+	}
+	else if(user.length > 10) {
+		showMessage("用户名不能超过10个字符！");
+		return false;
+	}
+	else if(pw.length > 12) {
+		showMessage("密码不能超过12个字符！");
+		return false;
+	}
+	else {
+		return true;
 	}
 }
