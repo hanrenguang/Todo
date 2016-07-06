@@ -132,12 +132,14 @@ window.onload = function() {
 	}
 };
 
+/* 获取计划内容 */
 function getPlan(str) {
 	var re = /^(.*)\<a.*\>.+\<\/a\>$/g;
 	var myArr = re.exec(str);
 	return myArr[1];
 }
 
+/* 显示提示信息 */
 function showMessage(msg) {
 	var msgBox = document.querySelector(".showMsg");
 	msgBox.innerHTML = msg;
@@ -147,6 +149,7 @@ function showMessage(msg) {
 	}, 2300);
 }
 
+/* 发送Ajax请求 */
 function sendMsg(url, data, db) {
 	var http_request;
 	if (window.XMLHttpRequest) { // Mozilla, Safari,...
@@ -209,6 +212,7 @@ function sendMsg(url, data, db) {
 	}
 }
 
+/* 增加计划 */
 function showPlan(plan) {
 	var parent = document.querySelector(".wrapper"),
 	    newElem = document.createElement("p");
@@ -223,6 +227,7 @@ function showPlan(plan) {
 	};
 }
 
+/* 删除计划 */
 function delPlan(plan) {
 	var parent = document.querySelector(".wrapper");
 	var planElems = parent.getElementsByTagName("p");
