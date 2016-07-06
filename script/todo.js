@@ -44,7 +44,14 @@ window.onload = function() {
 	var user_in = document.querySelector(".user");
 	var pw_in = document.querySelector(".pw");
 	var sub_in = document.querySelector(".sign-in-sub");
-	sub_in.onclick = function() {
+	sub_in.onclick = function(e) {
+		e = e || window.event;
+		try {  //阻止表单提交默认行为
+			e.preventDefault();
+		} catch(err) {
+			window.event.returnValue = false;
+		}
+		
 		var username = user_in.value;
 		var password = pw_in.value;
 		//前端验证用户和密码
@@ -71,7 +78,14 @@ window.onload = function() {
 	var user_up = document.querySelector(".user_up");
 	var pw_up = document.querySelector(".pw_up");
 	var sub_up = document.querySelector(".sign-up-sub");
-	sub_up.onclick = function() {
+	sub_up.onclick = function(e) {
+		e = e || window.event;
+		try {  //阻止表单提交默认行为
+			e.preventDefault();
+		} catch(err) {
+			window.event.returnValue = false;
+		}
+
 		var username = user_up.value;
 		var password = pw_up.value;
 		//前端验证用户和密码
@@ -171,10 +185,10 @@ function sendMsg(url, data, db) {
 						return ;
 					}
 					signDiv(signInBox, "none");
-					window.location.reload();
+					window.location.href = '../Todo';
 				}
 				else {
-					window.location.reload();
+					window.location.href = '../Todo';
 				}
 			}
 			else {

@@ -59,7 +59,7 @@
 			<label>
 				密&nbsp;&nbsp;&nbsp;码：<input type="password" class="pw" name="password" >
 			</label>
-			<input type="button" class="sign-in-sub" value="确 定">
+			<input type="submit" class="sign-in-sub" value="确 定">
 		</form>
 	</div>
 
@@ -72,7 +72,7 @@
 			<label>
 				密&nbsp;&nbsp;&nbsp;码：<input type="password" class="pw_up" name="password" >
 			</label>
-			<input type="button" class="sign-up-sub" value="确 定">
+			<input type="submit" class="sign-up-sub" value="确 定">
 		</form>
 	</div>
 
