@@ -1,6 +1,13 @@
 <?php 
-	$username = trim($_POST['username']);
-	$password = trim($_POST['password']);
+	/*$username = trim($_POST['username']);
+	$password = trim($_POST['password']);*/
+
+	//接收json数据
+	$json_data = json_decode( file_get_contents('php://input') );
+
+	$username = $json_data->username;
+	$password = $json_data->password;
+
 	$con = new mysqli("localhost", "root", "coderhan", "login");
 	mysqli_set_charset($con, 'utf8');
 	$sql_user = "INSERT INTO user (username, password) VALUES ('".$username."','".$password."')";
