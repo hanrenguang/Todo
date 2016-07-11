@@ -1,6 +1,12 @@
 <?php 
-	$plan = $_POST['plan'];
-	$user = $_POST['username'];
+	/*$plan = $_POST['plan'];
+	$user = $_POST['username'];*/
+
+	//以json方式接收数据
+	$json_data = json_decode( file_get_contents('php://input') );
+
+	$plan = $json_data->plan;
+	$user = $json_data->username;
 	
 	//连接数据库
 	$conn = mysqli_connect("localhost", "root", "coderhan", "MyPLAN");

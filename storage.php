@@ -1,8 +1,16 @@
 <?php
-	header("Content-type:text/html; charset=utf-8");
+	header("Content-type:application/json; charset=utf-8");
 
-	$plan = $_POST['plan'];
-	$user = $_POST['username'];
+	//以json方式接收数据
+	$json_data = json_decode( file_get_contents('php://input') );
+
+	$plan = $json_data->plan;
+	$user = $json_data->username;
+
+	echo json_encode(Array( 'status'=>'success' ));
+
+	/*$plan = $_POST['plan'];
+	$user = $_POST['username'];*/
 
 	$servername = "localhost";
 	$username = "root";

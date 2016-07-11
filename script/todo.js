@@ -151,7 +151,7 @@ function showMessage(msg) {
 
 /* 发送Ajax请求 */
 function sendMsg(url, data, db) {
-	var http_request;
+	var http_request = null;
 	if (window.XMLHttpRequest) { // Mozilla, Safari,...
             http_request = new XMLHttpRequest();
         } 
@@ -199,10 +199,14 @@ function sendMsg(url, data, db) {
 			}
 		}
 	};
+	http_request.responseType = "json";  //设置接收的数据类型为json
 	http_request.open('POST', url, true);
-	http_request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+	http_request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+	//http_request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 	if(db == 'plan') {
-		http_request.send('username=' + data['username'] + '&plan=' + data['plan']);
+		//http_request.send('username=' + data['username'] + '&plan=' + data['plan']);
+		var sendData = JSON.stringify(data);
+		http_request.send(sendData);
 	}
 	else if(db == "sign_out") {
 		http_request.send();
