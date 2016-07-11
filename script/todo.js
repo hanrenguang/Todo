@@ -177,18 +177,22 @@ function sendMsg(url, data, db) {
 				}
 				else if(url == 'signIn.php') {
 					var signInBox = document.querySelector(".sign-in");
-					if(http_request.responseText == "failed") {
+					var responseData = http_request.response['status'];
+
+					if(responseData == "failed") {
 						showMessage("密码错误！");
 						resetForm();
 						return ;
 					}
-					else if(http_request.responseText == "username not found") {
+					else if(responseData == "username not found") {
 						showMessage("该用户不存在！");
 						resetForm();
 						return ;
 					}
-					signDiv(signInBox, "none");
-					window.location.href = '../Todo';
+					else {
+						signDiv(signInBox, "none");
+						window.location.href = '../Todo';
+					}
 				}
 				else {
 					window.location.href = '../Todo';
@@ -204,15 +208,17 @@ function sendMsg(url, data, db) {
 	http_request.setRequestHeader("Content-Type","application/json;charset=UTF-8");
 	//http_request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 	if(db == 'plan') {
-		//http_request.send('username=' + data['username'] + '&plan=' + data['plan']);
 		var sendData = JSON.stringify(data);
 		http_request.send(sendData);
+		//http_request.send('username=' + data['username'] + '&plan=' + data['plan']);
 	}
 	else if(db == "sign_out") {
 		http_request.send();
 	}
 	else {
-		http_request.send('username=' + data['username'] + '&password=' + data['password']);
+		var signInData = JSON.stringify(data);
+		http_request.send(signInData);
+		//http_request.send('username=' + data['username'] + '&password=' + data['password']);
 	}
 }
 

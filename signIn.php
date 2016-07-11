@@ -1,6 +1,12 @@
 <?php 
-	$username = $_POST['username'];
-	$password = $_POST['password'];
+	/*$username = $_POST['username'];
+	$password = $_POST['password'];*/
+
+	$json_data = json_decode( file_get_contents('php://input') );
+
+	$username = $json_data->username;
+	$password = $json_data->password;
+
 	$con = new mysqli("localhost", "root", "coderhan", "login");
 	mysqli_set_charset($con, 'utf8');
 	$sql_user = "SELECT * FROM user WHERE `username` = '$username'";
@@ -14,13 +20,14 @@
 			//设置cookie把用户名和密码保存在客户端
 			setcookie('username', $username, time()+60*60*24);
 			setcookie('password', $password, time()+60*60*24);
+			echo json_encode(Array('status'=>'success'));
 		}
 		else {
-			echo "failed";
+			echo json_encode(Array('status'=>'failed'));
 		}
 	}
 	else {
-		echo "username not found";
+		echo json_encode(Array('status'=>'username not found'));
 	}
 		
 	$con->close();
