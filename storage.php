@@ -9,9 +9,6 @@
 
 	echo json_encode(Array( 'status'=>'success' ));
 
-	/*$plan = $_POST['plan'];
-	$user = $_POST['username'];*/
-
 	$servername = "localhost";
 	$username = "root";
 	$password = "coderhan";
